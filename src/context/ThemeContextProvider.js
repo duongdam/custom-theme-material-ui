@@ -1,11 +1,16 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {useGlobal} from 'reactn';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import {LinearProgress} from '@material-ui/core';
 
-export const UseThemeContext = createContext();
+export const UseThemeContext = createContext({});
 
 export const ThemeProviderContext = ({children}) => {
   const theme = useThemeConText();
+
+  if (!theme)
+    return <LinearProgress/>;
+
   return (
       <UseThemeContext.Provider value={theme}>
         <ThemeProvider theme={theme}>
@@ -18,8 +23,6 @@ export const ThemeProviderContext = ({children}) => {
 export const useThemeConText = () => {
   const [colors] = useGlobal('colors');
   const [theme, setTheme] = useState(createMuiTheme({}));
-
-  console.log(colors);
 
   useEffect(() => {
     if (!colors?.primary)
